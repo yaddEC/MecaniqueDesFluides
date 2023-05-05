@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7427100126795482169}
   - component: {fileID: 7427100126795482168}
   m_Layer: 6
-  m_Name: LiquideParticule
+  m_Name: FluideBalle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
