@@ -39,7 +39,7 @@ public class WaterTower : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         VerticalUpdate();
         HorizontalUpdate();
@@ -57,8 +57,6 @@ public class WaterTower : MonoBehaviour
         VerRight.transform.localScale = new Vector3(0.3f, height, 1);
         WaterLevel.transform.localScale = new Vector3(width, waterLevel, 1);
         WaterLevel.transform.localPosition = new Vector3(PosWaterLevel.x, PosWaterLevel.y+ waterLevel*0.5f-2.5f, 1);
-
-
     }
 
     void HorizontalUpdate()

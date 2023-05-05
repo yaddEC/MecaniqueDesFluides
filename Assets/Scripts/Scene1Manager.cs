@@ -14,8 +14,9 @@ public class Scene1Manager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        waterTower.waterLevel = physicManager.height;
         if (!physicManager.runMode)
         {
             physicManager.UpdateVariables(waterTower);

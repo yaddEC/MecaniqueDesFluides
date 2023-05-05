@@ -15,7 +15,7 @@ public class WaterParticule : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        acceleration = Vector3.up * (-volume * volumetricMass * gravity);
+        acceleration = Vector3.up * (-gravity);
         speed = Vector3.right * initital_speed;
         transform.localScale *= diameter;
     }

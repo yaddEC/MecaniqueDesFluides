@@ -415,6 +415,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterTower
       objectReference: {fileID: 0}
+    - target: {fileID: 2924094505439192694, guid: 40def29f40c23d24bbe283273a79a6dc, type: 3}
+      propertyPath: waterLevel
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2924094505439192695, guid: 40def29f40c23d24bbe283273a79a6dc, type: 3}
       propertyPath: m_RootOrder
       value: 2
