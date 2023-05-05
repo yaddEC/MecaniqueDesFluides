@@ -14,7 +14,7 @@ public class Scene1Manager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!physicManager.runMode)
         {
@@ -26,7 +26,7 @@ public class Scene1Manager : MonoBehaviour
             comp.initital_speed = physicManager.speed_out;
             comp.volume = physicManager.volumetric_flow * Time.fixedDeltaTime;
             comp.diameter = Mathf.Sqrt(physicManager.volumetric_flow / physicManager.speed_out * 4 / Mathf.PI);
-            Instantiate(particule, waterTower.Hole.transform.position + Vector3.right * 0.1f, Quaternion.identity);
+            Instantiate(particule, waterTower.Hole.transform.position, Quaternion.identity);
         }
     }
 }

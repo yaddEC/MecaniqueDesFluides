@@ -27,7 +27,7 @@ public class WaterParticule : MonoBehaviour
         speed += acceleration * Time.fixedDeltaTime;
         transform.position += speed * Time.fixedDeltaTime;
 
-        if (time > 10.0f || transform.position.y < 0.0f)
+        if (time > 10.0f || transform.position.y < -1.0f)
             Destroy(gameObject);
     }
 }
