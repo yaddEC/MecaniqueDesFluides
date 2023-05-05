@@ -5,9 +5,6 @@ using UnityEngine;
 public class Scene1PhysicManager : MonoBehaviour
 {
     float speed;
-    float speed_out;
-    float volumetric_flow;
-    float height;
     float height_total;
     float container_diameter;
     float orifice_diameter;
@@ -16,6 +13,11 @@ public class Scene1PhysicManager : MonoBehaviour
     float gravity = 9.81f;
     float container_surface;
     float orifice_surface;
+
+    public bool runMode = false;
+    public float speed_out;
+    public float height;
+    [HideInInspector]public float volumetric_flow;
 
     // Start is called before the first frame update
     void Start()
@@ -36,14 +38,41 @@ public class Scene1PhysicManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        volume -= volumetric_flow * Time.fixedDeltaTime;
-        float new_height = volume / container_surface;
-        speed = (height - new_height) / Time.fixedDeltaTime;
-        speed_out = Mathf.Sqrt(speed * speed + 2.0f * gravity * new_height);
+        if (runMode && height > 0.0f)
+        {
+            volume -= volumetric_flow * Time.fixedDeltaTime;
+            float new_height = volume / container_surface;
+            speed = (height - new_height) / Time.fixedDeltaTime;
+            speed_out = Mathf.Sqrt(speed * speed + 2.0f * gravity * new_height);
+            volumetric_flow = speed_out * orifice_surface;
+            height = new_height;
+            time += Time.fixedDeltaTime;
+
+            if (height < 0.001f)
+            {
+                height = 0.0f;
+                volumetric_flow = 0.0f;
+                volume = 0.0f;
+                speed = 0.0f;
+            }
+
+        }
+    }
+
+    public void UpdateVariables(WaterTower tower)
+    {
+        height = height_total = tower.height;
+        container_diameter = tower.width;
+        orifice_diameter = tower.holeSize;
+
+        container_surface = Mathf.PI * container_diameter * container_diameter / 4;
+        orifice_surface = Mathf.PI * orifice_diameter * orifice_diameter / 4;
+
+        volume = container_surface * height_total;
+
+        speed_out = Mathf.Sqrt(2.0f * gravity * height_total);
         volumetric_flow = speed_out * orifice_surface;
-        height = new_height;
-        time += Time.fixedDeltaTime;
     }
 }
