@@ -8,6 +8,7 @@ public class WaterTower : MonoBehaviour
     public float width;
     public float supportHeight;
     public float holeSize;
+    public float waterLevel;
 
     public GameObject VerLeft;
     public GameObject VerRight;
@@ -15,6 +16,7 @@ public class WaterTower : MonoBehaviour
     public GameObject HorBottom;
     public GameObject Support;
     public GameObject Hole;
+    public GameObject WaterLevel;
 
     private Vector3 PosVerRight;
     private Vector3 PosVerLeft;
@@ -22,6 +24,7 @@ public class WaterTower : MonoBehaviour
     private Vector3 PosHorBottom;
     private Vector3 PosHole;
     private Vector3 PosSupport;
+    private Vector3 PosWaterLevel;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +35,7 @@ public class WaterTower : MonoBehaviour
         PosHorBottom = HorBottom.transform.localPosition;
         PosHole = Hole.transform.localPosition;
         PosSupport = Support.transform.localPosition;
+        PosWaterLevel = WaterLevel.transform.localPosition;
     }
 
     // Update is called once per frame
@@ -51,6 +55,9 @@ public class WaterTower : MonoBehaviour
         VerRight.transform.localPosition = new Vector3(PosVerRight.x + width * 0.5f + 0.1f - 1.25f, PosVerRight.y + Support.transform.localScale.y * 0.5f + (height * 0.5f)-6 , 0);
         Hole.transform.localPosition = new Vector3(VerRight.transform.localPosition.x, PosHole.y - (Support.transform.localScale.y * 0.5f - 0.3f - Hole.transform.localScale.y * 0.5f)-0.244f, 0);
         VerRight.transform.localScale = new Vector3(0.3f, height, 1);
+        WaterLevel.transform.localScale = new Vector3(width, waterLevel, 1);
+        WaterLevel.transform.localPosition = new Vector3(PosWaterLevel.x, PosWaterLevel.y+ waterLevel*0.5f-2.5f, 1);
+
 
     }
 
