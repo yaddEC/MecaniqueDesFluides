@@ -5,16 +5,15 @@ using UnityEngine;
 public class Scene2Manager : MonoBehaviour
 {
     [SerializeField] private GameObject particule;
-    [SerializeField] private float speed_out;
-    [SerializeField] private float particuleMass;
-    [SerializeField] private float particuleDynamicViscosity;
-    [SerializeField] private bool open;
+    [SerializeField] private float speed_out = 1.0f;
+    [SerializeField] private float particuleMass = 1.0f;
+    [SerializeField] private float particuleDynamicViscosity = 0.01f;
+    [SerializeField] private bool open = false;
 
     [HideInInspector] public List<Scene2Particule> particules;
     // Start is called before the first frame update
     void Start()
     {
-        open = false;
     }
 
     // Update is called once per frame
@@ -22,12 +21,21 @@ public class Scene2Manager : MonoBehaviour
     {
         if (open)
         {
-            Scene2Particule comp = Instantiate(particule).GetComponent<Scene2Particule>();
-            comp.dynamicViscosity = 0;
-            comp.initital_speed = 1;
-            comp.mass = 1;
+            Scene2Particule comp = Instantiate(particule, Vector3.zero, Quaternion.identity).GetComponent<Scene2Particule>();
+            comp.dynamicViscosity = particuleDynamicViscosity;
+            comp.initital_speed = speed_out;
+            comp.mass = particuleMass;
             comp.manager = this;
             particules.Add(comp);
         }
+
+        for (int i = 0; i < particules.Count; i++)
+            particules[i].CalculateDensityAndPressure();
+
+        for (int i = 0; i < particules.Count; i++)
+            particules[i].CalculateForces();
+
+        for (int i = 0; i < particules.Count; i++)
+            particules[i].CalculateSpeed();
     }
 }

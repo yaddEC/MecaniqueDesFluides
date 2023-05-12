@@ -6,41 +6,35 @@ public class Scene2Particule : MonoBehaviour
 {
     public float initital_speed;
     public float mass;
-    public float dynamicViscosity;
+    public float dynamicViscosity; //voir cours (SPH Muller)
     public float kernelMaxLength = 1;
     [HideInInspector] public Scene2Manager manager;
 
     float density;
     float initital_density;
     float pressure;
-    float k; //swiftness coefficient : voir cours (SPH Muller)
-    float nuh; //voir cours (SPH Muller)
+    float k = 3.0f; //stiffness coefficient : voir cours (SPH Muller)
     Vector2 pressureForce;
     Vector2 viscosityForce;
 
     Vector2 gravity = new Vector2(0, -9.81f);
     Vector2 speed;
-    Vector2 acceleration;
 
     // Start is called before the first frame update
     void Start()
     {
         initital_density = 1;
-        acceleration = Vector3.up * (-gravity);
         speed = Vector3.right * initital_speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        speed += acceleration * Time.fixedDeltaTime;
-        //transform.position += speed * Time.fixedDeltaTime;
-
         if (transform.position.y < -1.0f)
             Destroy(gameObject);
     }
 
-    void CalculateDensityAndPressure()
+    public void CalculateDensityAndPressure()
     {
         density = 0;
 
@@ -54,7 +48,7 @@ public class Scene2Particule : MonoBehaviour
         pressure = k * (density - initital_density);
     }
 
-    void CalculateForces()
+    public void CalculateForces()
     {
         pressureForce = Vector2.zero;
         viscosityForce = Vector2.zero;
@@ -65,12 +59,13 @@ public class Scene2Particule : MonoBehaviour
             viscosityForce += (manager.particules[i].speed - speed) / manager.particules[i].density * ViscosityKernel(vec, kernelMaxLength);
         }
         pressureForce *= -mass;
-        viscosityForce *= nuh * mass;
+        viscosityForce *= dynamicViscosity * mass;
     }
 
-    void CalculateSpeed()
+    public void CalculateSpeed()
     {
         speed += (gravity * (pressureForce + viscosityForce) / density) * Time.fixedDeltaTime;
+        transform.position += new Vector3(speed.x, speed.y, 0.0f) * Time.fixedDeltaTime;
     }
 
     float DefaultKernel(Vector2 pos, float h)
