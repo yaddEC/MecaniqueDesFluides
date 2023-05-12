@@ -18,7 +18,7 @@ public class Scene2Particule : MonoBehaviour
     Vector2 viscosityForce;
 
     Vector2 gravity = new Vector2(0, -9.81f);
-    Vector2 speed;
+    public Vector2 speed;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +30,12 @@ public class Scene2Particule : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y < -1.0f)
-            Destroy(gameObject);
+        if (transform.position.y < -40.0f)
+        {
+            transform.position = new Vector3(0.1f, 0.1f, 0) * Random.Range(0, 9);
+            speed = Vector3.zero;
+        }
+            
     }
 
     public void CalculateDensityAndPressure()
@@ -40,8 +44,12 @@ public class Scene2Particule : MonoBehaviour
 
         for (int i = 0; i < manager.particules.Count; i++)
         {
-            Vector2 vec = transform.position - manager.particules[i].transform.position;
-            density += DefaultKernel(vec, kernelMaxLength);
+            if (this != manager.particules[i])
+            {
+                Vector2 vec = transform.position - manager.particules[i].transform.position;
+                density += DefaultKernel(vec, kernelMaxLength);
+            }
+            
         }
         density *= mass;
 
@@ -54,9 +62,13 @@ public class Scene2Particule : MonoBehaviour
         viscosityForce = Vector2.zero;
         for (int i = 0; i < manager.particules.Count; i++)
         {
-            Vector2 vec = transform.position - manager.particules[i].transform.position;
-            pressureForce += GradPressureKernel(vec, kernelMaxLength);
-            viscosityForce += (manager.particules[i].speed - speed) / manager.particules[i].density * ViscosityKernel(vec, kernelMaxLength);
+            if (this != manager.particules[i])
+            {
+                Vector2 vec = transform.position - manager.particules[i].transform.position;
+                pressureForce += GradPressureKernel(vec, kernelMaxLength);
+                viscosityForce += (manager.particules[i].speed - speed) / manager.particules[i].density * ViscosityKernel(vec, kernelMaxLength);
+
+            }
         }
         pressureForce *= -mass;
         viscosityForce *= dynamicViscosity * mass;
@@ -64,7 +76,7 @@ public class Scene2Particule : MonoBehaviour
 
     public void CalculateSpeed()
     {
-        speed += (gravity * (pressureForce + viscosityForce) / density) * Time.fixedDeltaTime;
+        speed += (gravity + (pressureForce + viscosityForce) / density) * Time.fixedDeltaTime;
         transform.position += new Vector3(speed.x, speed.y, 0.0f) * Time.fixedDeltaTime;
     }
 
@@ -91,8 +103,12 @@ public class Scene2Particule : MonoBehaviour
     Vector2 GradPressureKernel(Vector2 pos, float h)
     {
         float magnitude = pos.magnitude;
-        if (magnitude >= 0 || magnitude <= h)
-            return -45 / (Mathf.PI * Mathf.Pow(h, 6)) * pos / magnitude * Mathf.Pow(h - magnitude, 2);
+        if(magnitude!=0)
+        {
+            Vector2 pressureKernel = -45 / (Mathf.PI * Mathf.Pow(h, 6)) * pos / magnitude * Mathf.Pow(h - magnitude, 2);
+            if (magnitude > 0 || magnitude <= h)
+                return pressureKernel;
+        }
 
         return Vector2.zero;
     }
@@ -100,8 +116,11 @@ public class Scene2Particule : MonoBehaviour
     float ViscosityKernel(Vector2 pos, float h)
     {
         float magnitude = pos.magnitude;
-        if (magnitude >= 0 || magnitude <= h)
-            return -45 / (Mathf.PI * Mathf.Pow(h, 6)) * (h - magnitude);
+        if (magnitude != 0)
+        {
+            if (magnitude > 0 || magnitude <= h)
+                return -45 / (Mathf.PI * Mathf.Pow(h, 6)) * (h - magnitude);
+        }
 
         return 0;
     }

@@ -237,7 +237,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1599690745
 MonoBehaviour:
@@ -252,8 +252,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particule: {fileID: 7427100126795482175, guid: 864dd6891f801c541baa487fce5d0357, type: 3}
+  timer: 1
   speed_out: 1
   particuleMass: 1
   particuleDynamicViscosity: 0.01
-  open: 0
+  open: 1
+  firstPos: {x: 0.1, y: 0.1, z: 0.1}
   particules: []
+--- !u!1001 &1691334445
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621808, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368263951119621822, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
+      propertyPath: m_Name
+      value: FluidCamera
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: adc53584da608834ba16a23dfc7f7e34, type: 3}
