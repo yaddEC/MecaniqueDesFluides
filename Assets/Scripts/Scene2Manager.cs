@@ -6,10 +6,11 @@ public class Scene2Manager : MonoBehaviour
 {
     [SerializeField] private GameObject particule;
     [SerializeField] private float timer = 0;
-    [SerializeField] private float speed_out = 1.0f;
+    public float speed_out = 1.0f;
     [SerializeField] private float particuleMass = 1.0f;
     [SerializeField] private float particuleDynamicViscosity = 0.01f;
-    [SerializeField] private bool open = false;
+
+    public bool open = false;
     [SerializeField] private Vector3 firstPos = new Vector3(0.1f,0.1f,0);
 
     [HideInInspector] public List<Scene2Particule> particules;

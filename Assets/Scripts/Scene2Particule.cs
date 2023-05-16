@@ -14,6 +14,8 @@ public class Scene2Particule : MonoBehaviour
     float initital_density;
     float pressure;
     float k = 3.0f; //stiffness coefficient : voir cours (SPH Muller)
+    public float restitution = 1.0f; //between 1 and 0
+
     Vector2 pressureForce;
     Vector2 viscosityForce;
 
@@ -30,12 +32,11 @@ public class Scene2Particule : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y < -40.0f)
+        if (transform.position.y < -40.0f && manager.open)
         {
             transform.position = new Vector3(0.1f, 0.1f, 0) * Random.Range(0, 9);
-            speed = Vector3.zero;
+            speed = Vector3.right * manager.speed_out;
         }
-            
     }
 
     public void CalculateDensityAndPressure()
@@ -49,7 +50,6 @@ public class Scene2Particule : MonoBehaviour
                 Vector2 vec = transform.position - manager.particules[i].transform.position;
                 density += DefaultKernel(vec, kernelMaxLength);
             }
-            
         }
         density *= mass;
 
@@ -123,5 +123,19 @@ public class Scene2Particule : MonoBehaviour
         }
 
         return 0;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        Vector2 normal = collision.GetContact(0).normal;
+        Vector3 pos = collision.GetContact(0).otherCollider.transform.position;
+        float penetrationDepth = (collision.GetContact(0).point - new Vector2(pos.x, pos.y)).magnitude;
+        if (speed.magnitude == 0)
+        {
+            speed = Vector2.zero;
+            return;
+        }
+
+        speed -= (1 + restitution * penetrationDepth / (Time.fixedDeltaTime * speed.magnitude)) * Vector2.Dot(speed, normal) * normal; //Formule Cours SPH Muller p38
     }
 }
