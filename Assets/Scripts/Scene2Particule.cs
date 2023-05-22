@@ -30,13 +30,16 @@ public class Scene2Particule : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        
         if (transform.position.y < -40.0f && manager.open)
         {
-            transform.position = new Vector3(0.1f, 0.1f, 0) * Random.Range(0, 9);
+            transform.position = new Vector3(0, 30.0f, 0) + new Vector3(0.1f, 0.1f, 0) * Random.Range(0, 9);
             speed = Vector3.right * manager.speed_out;
         }
+        
+        CollisionDetection();
     }
 
     public void CalculateDensityAndPressure()
@@ -125,17 +128,24 @@ public class Scene2Particule : MonoBehaviour
         return 0;
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    void CollisionDetection()
     {
-        Vector2 normal = collision.GetContact(0).normal;
-        Vector3 pos = collision.GetContact(0).otherCollider.transform.position;
-        float penetrationDepth = (collision.GetContact(0).point - new Vector2(pos.x, pos.y)).magnitude;
-        if (speed.magnitude == 0)
+        for (int i = 0; i < manager.environement.Count; i++)
         {
-            speed = Vector2.zero;
-            return;
-        }
+            GameObject currentGO = manager.environement[i];
+            Vector3 pos = transform.position;
+            Vector3 center = currentGO.transform.position;
+            float dist = (pos - center).magnitude;
+            float radius = currentGO.transform.localScale.x / 2;
+            float result = dist * dist - radius * radius;
 
-        speed -= (1 + restitution * penetrationDepth / (Time.fixedDeltaTime * speed.magnitude)) * Vector2.Dot(speed, normal) * normal; //Formule Cours SPH Muller p38
+            if ((currentGO.tag == "Obstacle" && result < 0) || (currentGO.tag == "Container" && result > 0))
+            {
+                Vector2 normal = (center - pos).normalized;
+                float penetrationDepth = Mathf.Abs((center - pos).magnitude - radius);
+                transform.position = center + radius * (transform.position - center).normalized;
+                speed -= (1 + restitution * penetrationDepth / (Time.fixedDeltaTime * speed.magnitude)) * Vector2.Dot(speed, normal) * normal; //Formule Cours SPH Muller p38
+            }
+        }
     }
 }
