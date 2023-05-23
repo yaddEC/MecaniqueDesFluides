@@ -8,7 +8,6 @@ public class Scene2Manager : MonoBehaviour
     [SerializeField] private float timer = 0.0f;
     public float speed_out = 1.0f;
     [SerializeField] private float particuleMass = 1.0f;
-    [SerializeField] private float particuleDynamicViscosity = 0.01f;
 
     public bool open = false;
     [SerializeField] private Vector3 firstPos = new Vector3(0.1f,0.1f,0);
@@ -28,7 +27,6 @@ public class Scene2Manager : MonoBehaviour
         {
             float test = Random.Range(0, 9);
             Scene2Particule comp = Instantiate(particule, new Vector3(0, 30) + firstPos * test, Quaternion.identity).GetComponent<Scene2Particule>();
-            comp.dynamicViscosity = particuleDynamicViscosity;
             comp.initital_speed = speed_out;
             comp.mass = particuleMass;
             comp.manager = this;
