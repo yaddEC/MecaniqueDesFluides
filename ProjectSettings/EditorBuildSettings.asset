@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/Yann.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Umut.unity
+    guid: 511b5680c8a598849b1f4ff797b91ee6
+  - enabled: 1
+    path: Assets/Scenes/Umut 2.unity
+    guid: 5fe5f3f367cba3a4f8f7b0353b2d0852
   m_configObjects: {}

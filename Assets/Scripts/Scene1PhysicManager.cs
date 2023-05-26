@@ -24,6 +24,9 @@ public class Scene1PhysicManager : MonoBehaviour
     public Slider widthSlider;
     public Slider HoleSlider;
 
+    public Timer timer;
+    public Estimated estimaed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +49,13 @@ public class Scene1PhysicManager : MonoBehaviour
     {
         if(HoleSlider.value > 0)
         {
+            timer.ResetTimer();
+            estimaed.StartEstimated();
+            if (timer.isTimerRunning2)
+                timer.StartTimer();
+            else
+                timer.isTimerRunning2 = true;
+
             runMode = !runMode;
             heightSlider.interactable = !heightSlider.interactable;
             widthSlider.interactable = !widthSlider.interactable;
@@ -55,10 +65,13 @@ public class Scene1PhysicManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        HoleSlider.maxValue = heightSlider.value / 10;
+
         if (runMode && height > 0.0f && orifice_diameter > 0)
         {
             orifice_surface = Mathf.PI * orifice_diameter * orifice_diameter / 4;
             volumetric_flow = speed_out * orifice_surface;
+
 
             volume -= volumetric_flow * Time.fixedDeltaTime;
             float new_height = volume / container_surface;
@@ -74,6 +87,7 @@ public class Scene1PhysicManager : MonoBehaviour
                 volumetric_flow = 0.0f;
                 volume = 0.0f;
                 speed = 0.0f;
+                timer.StopTimer();
             }
 
         }

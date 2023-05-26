@@ -10,7 +10,6 @@ public class Scene2Particule : MonoBehaviour
     [HideInInspector] public Scene2Manager manager;
 
     float massDensity;
-    float initital_density;
     float pressure;
     float k = 3.0f; //stiffness coefficient : voir cours (SPH Muller)
     float densityRest = 998.29f; //stiffness coefficient : voir cours (SPH Muller)
@@ -27,7 +26,6 @@ public class Scene2Particule : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        initital_density = 1;
         speed = Vector3.right * initital_speed;
     }
 
