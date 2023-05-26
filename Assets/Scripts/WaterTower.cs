@@ -16,6 +16,7 @@ public class WaterTower : MonoBehaviour
     public GameObject HorBottom;
     public GameObject Support;
     public GameObject Hole;
+    public GameObject WaterHole;
     public GameObject WaterLevel;
 
     private Vector3 PosVerRight;
@@ -45,10 +46,26 @@ public class WaterTower : MonoBehaviour
         HorizontalUpdate();
     }
 
+    public void SetHoleSize(float HS)
+    {
+        holeSize = HS;
+    }
+
+    public void SetHeight(float h)
+    {
+        height = h;
+    }
+
+    public void SetWidth(float w)
+    {
+        width = w;
+    }
+
 
     void VerticalUpdate()
     {
         Hole.transform.localScale = new Vector3(Hole.transform.localScale.x, holeSize, Hole.transform.localScale.z);
+        WaterHole.transform.localScale = new Vector3(WaterHole.transform.localScale.x, holeSize, WaterHole.transform.localScale.z);
         Support.transform.localScale = new Vector3(0.3f, supportHeight, 1);
         VerLeft.transform.localPosition = new Vector3(PosVerLeft.x - (width * 0.5f) - 0.1f + 1.25f, PosVerLeft.y + Support.transform.localScale.y * 0.5f + (height * 0.5f)-6 , 0);
         VerLeft.transform.localScale = new Vector3(0.3f, height, 1);
@@ -57,6 +74,15 @@ public class WaterTower : MonoBehaviour
         VerRight.transform.localScale = new Vector3(0.3f, height, 1);
         WaterLevel.transform.localScale = new Vector3(width, waterLevel, 1);
         WaterLevel.transform.localPosition = new Vector3(PosWaterLevel.x, PosWaterLevel.y+ waterLevel*0.5f-2.5f, 1);
+
+        if (waterLevel >= holeSize)
+            WaterHole.transform.localPosition = new Vector3(VerRight.transform.localPosition.x, PosHole.y - (Support.transform.localScale.y * 0.5f - 0.3f - WaterHole.transform.localScale.y * 0.5f)-0.244f, 0);
+        else
+        {
+            WaterHole.transform.localScale = new Vector3(Hole.transform.localScale.x, waterLevel, 1);
+            WaterHole.transform.localPosition = new Vector3(Hole.transform.localPosition.x, PosWaterLevel.y + waterLevel * 0.5f - 2.5f, 1);
+        }
+
     }
 
     void HorizontalUpdate()

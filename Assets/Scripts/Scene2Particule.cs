@@ -80,7 +80,8 @@ public class Scene2Particule : MonoBehaviour
     public void CalculateSpeed()
     {
         speed += (gravity + (pressureForce + viscosityForce) / density) * Time.fixedDeltaTime;
-        transform.position += new Vector3(speed.x, speed.y, 0.0f) * Time.fixedDeltaTime;
+        if (!float.IsNaN(speed.x) && !float.IsNaN(speed.y))
+            transform.position += new Vector3(speed.x, speed.y, 0.0f) * Time.fixedDeltaTime;
     }
 
     float DefaultKernel(Vector2 pos, float h)
