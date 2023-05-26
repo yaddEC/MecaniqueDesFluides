@@ -44,7 +44,6 @@ public class Scene2Manager : MonoBehaviour
             {
                 float rng = Random.Range(0, 9);
                 Scene2Particule comp = Instantiate(particule, new Vector3(0, 30) + firstPos * rng, Quaternion.identity).GetComponent<Scene2Particule>();
-                comp.dynamicViscosity = particuleDynamicViscosity;
                 comp.initital_speed = speed_out;
                 comp.mass = particuleMass;
                 comp.manager = this;
